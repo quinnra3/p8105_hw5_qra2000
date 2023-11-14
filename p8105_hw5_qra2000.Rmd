@@ -5,7 +5,7 @@ date: '`r format(Sys.time(), "%Y-%m-%d")`'
 output: github_document
 ---
 
-## Setup and load libraries
+### Setup, load libraries, and set seed for reproducibility. 
 
 ```{r setup, results=FALSE}
 library(tidyverse)
@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
   fig.height = 6,
   out.width = "90%")
 
-theme_set(theme_minimal() + theme(legend.position = "bottom"))
+theme_set(
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5)))
 
 options(
   ggplot2.continuous.colour = "viridis",
@@ -49,8 +51,6 @@ tidy_study_data = data.frame(participants = load_study_data) |>
 tidy_study_data
 ```
 
-Below is a spaghetti plot showing observations on each subject over time.
-
 ```{r}
 tidy_study_data |> 
   ggplot(aes(x = week, y = observation, group = subject_id, color = subject_id)) +
@@ -59,15 +59,15 @@ tidy_study_data |>
     title = "Observations on Subject ID over Time",
        x = "Week",
        y = "Observation") +
-  theme_minimal()
+  facet_grid(~control) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
-^^^
+The spaghetti plot above shows observations on each subject over time (weeks) during the course of the longitudinal study separated by control and experimental groups. The observations in the experimental group increase over the eight weeks, while the observations in the control group decrease. Subject #07 in the experimental group has the highest number of observations at 7.5 at week 7. Subject #06 in the control group has the lowest number of observations at around -2.4.
 
-The spaghetti plot shows observations on each subject over time for the course of the longitudinal study. [put more description here]
+## Problem 3
 
-
-
+First, load the samples.
 
 
 
